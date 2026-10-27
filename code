@@ -1,0 +1,61 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+def show_comparison(original, with_bg, without_bg):
+    plt.figure(figsize=(15, 5))
+    # Original Image
+    plt.subplot(1, 3, 1)
+    plt.imshow(original, cmap='gray')
+    plt.title("Original Image")
+    plt.axis('off')
+    # Slicing Without Background
+    plt.subplot(1, 3, 2)
+    plt.imshow(without_bg, cmap='gray')
+    plt.title("Slicing Without Background")
+    plt.axis('off')
+    # Slicing With Background
+    plt.subplot(1, 3, 3)
+    plt.imshow(with_bg, cmap='gray')
+    plt.title("Slicing With Background")
+    plt.axis('off')
+    plt.tight_layout()
+    plt.show()
+
+# 1. Load Image
+# Replace 'input_image.jpg' with your filename
+img = cv2.imread('/content/doraemon 2.jpg', cv2.IMREAD_GRAYSCALE)
+if img is None:
+    print("Error: Image not found.")
+else:
+    # Get image dimensions
+    rows, cols = img.shape
+    # Create empty images for the results
+    # Initialize with zeros (black)
+    slice_without_bg = np.zeros((rows, cols), dtype=np.uint8)
+    # Initialize with original image data for 'with background'
+    slice_with_bg = img.copy()
+    # Define the range of intensity levels to highlight
+    # Example: Highlight pixels between 100 and 150
+    min_range = 100
+    max_range = 150
+    # Target value for highlighting (usually white/255)
+    L = 255
+
+    # Algorithm Implementation
+    for i in range(rows):
+        for j in range(cols):
+            pixel_val = img[i, j]
+            # Check if pixel is within the specific range
+            if min_range <= pixel_val <= max_range:
+                # Highlight the pixel
+                slice_without_bg[i, j] = L
+                slice_with_bg[i, j] = L
+            else:
+                # Approach 1: Without Background (Suppress others to 0)
+                slice_without_bg[i, j] = 0
+                # Approach 2: With Background (Keep original values)
+                slice_with_bg[i, j] = pixel_val
+
+    # Display results
+    show_comparison(img, slice_with_bg, slice_without_bg)
