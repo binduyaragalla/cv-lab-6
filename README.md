@@ -138,7 +138,7 @@ The output displays three images:
 <img width="1177" height="490" alt="doraemon output" src="https://github.com/user-attachments/assets/2cdc4703-e6d2-47cd-a19f-f4596b93e498" />
 
 
-![Output Image](output.png)
+
 
 The output demonstrates how gray level slicing enhances selected intensity ranges in an image.
 
